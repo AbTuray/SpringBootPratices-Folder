@@ -1,9 +1,25 @@
 package com.start.lab.secondirstspringapp.model;
 
+
+import jakarta.persistence.Entity;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+
+
 public class StudentModel {
     private String name;
     private String department;
     private String university;
+
+
+    public StudentModel(){
+    }
+
+    public StudentModel(String name, String department, String university) {
+        this.name = name;
+        this.department = department;
+        this.university = university;
+    }
 
     // Getters and Setters
     public String getName(){
