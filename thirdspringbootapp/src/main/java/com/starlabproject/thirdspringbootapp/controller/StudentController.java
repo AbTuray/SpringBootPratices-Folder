@@ -1,5 +1,6 @@
 package com.starlabproject.thirdspringbootapp.controller;
 
+import com.starlabproject.thirdspringbootapp.exceptions.StudentNotFoundException;
 import com.starlabproject.thirdspringbootapp.model.Student;
 import com.starlabproject.thirdspringbootapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,15 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public Student updateStudent(@PathVariable Long id, @RequestBody Student student){
-        student.setId(id);
-        return studentService.updateStudent(student);
+        Student existingStudent = studentService.getStudentById(id);
+        if (existingStudent == null) {
+            throw new StudentNotFoundException(id);
+        }
+        existingStudent.setFirstName(student.getFirstName());
+        existingStudent.setEmail(student.getEmail());
+        existingStudent.setAge(student.getAge());
+
+        return studentService.addStudent(existingStudent); // save updated student
     }
 
     @DeleteMapping("/{id}")
