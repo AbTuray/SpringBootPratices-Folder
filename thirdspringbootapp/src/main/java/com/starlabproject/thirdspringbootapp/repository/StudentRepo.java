@@ -9,3 +9,5 @@ import org.springframework.stereotype.Controller;
 public interface StudentRepo extends JpaRepository <Student, Long> {
 
 }
+
+

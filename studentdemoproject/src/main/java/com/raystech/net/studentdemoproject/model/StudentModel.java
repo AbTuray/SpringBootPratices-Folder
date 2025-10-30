@@ -1,10 +1,11 @@
-package com.starlabproject.thirdspringbootapp.model;
+package com.raystech.net.studentdemoproject.model;
+
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ST_STUDENT")
-public class Student {
+public class StudentModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,27 +16,16 @@ public class Student {
     private String email;
     private int age;
 
-    // Many students can belong to one department
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department departments;
-
-
-
-    // Default constructor
-    public Student(){
-
+    public StudentModel() {
     }
 
-    // Constructor with parameters
-    public Student(String firstName, String lastName, String email, int age) {
+    public StudentModel(String firstName, String lastName, String email, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

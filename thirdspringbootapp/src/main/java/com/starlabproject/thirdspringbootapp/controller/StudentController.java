@@ -1,9 +1,12 @@
 package com.starlabproject.thirdspringbootapp.controller;
 
+import com.starlabproject.thirdspringbootapp.dto.StudentDTO;
 import com.starlabproject.thirdspringbootapp.exceptions.StudentNotFoundException;
 import com.starlabproject.thirdspringbootapp.model.Student;
 import com.starlabproject.thirdspringbootapp.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,26 +24,24 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public Student addStudent(@RequestBody Student student){
-        return studentService.addStudent(student);
+    public ResponseEntity<Student>  addStudent(@Valid @RequestBody StudentDTO studentdto){
+        Student saveStudent = studentService.addStudent(studentdto);
+        return ResponseEntity.ok(saveStudent);
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Long id){
+    public  Student getStudentById(@PathVariable Long id){
         return studentService.getStudentById(id);
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student){
-        Student existingStudent = studentService.getStudentById(id);
-        if (existingStudent == null) {
-            throw new StudentNotFoundException(id);
-        }
-        existingStudent.setFirstName(student.getFirstName());
-        existingStudent.setEmail(student.getEmail());
-        existingStudent.setAge(student.getAge());
+    public ResponseEntity<List<Student>>  updateStudent(@Valid @PathVariable Long id, @RequestBody StudentDTO student){
+        Student updatedStudent = studentService.updateStudent(id, student);
+        List<Student> allStudents = studentService.getAllStudents();
+        return ResponseEntity.ok(allStudents);
 
-        return studentService.addStudent(existingStudent); // save updated student
+
+
     }
 
     @DeleteMapping("/{id}")
